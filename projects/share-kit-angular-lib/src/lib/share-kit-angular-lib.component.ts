@@ -57,6 +57,8 @@ export class ShareKitAngularLibComponent implements OnInit, OnChanges, OnDestroy
   }
 
   ngOnDestroy(): void {
+    if (!this.requestElementResult) { return; }
+
     this.requestElementResult.remove();
   }
 
