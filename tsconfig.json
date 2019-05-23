@@ -17,6 +17,14 @@
     "lib": [
       "es2018",
       "dom"
-    ]
+    ],
+    "paths": {
+      "share-kit-angular-lib": [
+        "dist/share-kit-angular-lib"
+      ],
+      "share-kit-angular-lib/*": [
+        "dist/share-kit-angular-lib/*"
+      ]
+    }
   }
 }
