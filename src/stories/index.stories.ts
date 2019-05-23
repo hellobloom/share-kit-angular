@@ -2,10 +2,10 @@ import { storiesOf } from '@storybook/angular';
 import { action } from '@storybook/addon-actions';
 import { linkTo } from '@storybook/addon-links';
 
-import { ShareKitAngularLibComponent } from "../../projects/share-kit-angular-lib/src/lib/share-kit-angular-lib.component";
-import {Action} from "@bloomprotocol/share-kit";
+import { ShareKitAngularLibComponent } from '../../projects/share-kit-angular-lib/src/lib/share-kit-angular-lib.component';
+import {Action} from '@bloomprotocol/share-kit';
 
-const defaultData = {
+const requestData = {
   action: Action.attestation,
   token: 'a08714b92346a1bba4262ed575d23de3ff3e6b5480ad0e1c82c011bab0411fdf',
   url: 'https://receive-kit.bloom.co/api/receive',
@@ -22,39 +22,39 @@ storiesOf('Request Element', module)
   .add('Base', () => ({
     component: ShareKitAngularLibComponent,
     props: {
-      requestData: defaultData,
-      buttonCallbackUrl: buttonCallbackUrl
+      requestData,
+      buttonCallbackUrl
     }
   }))
   .add('Colors', () => ({
     component: ShareKitAngularLibComponent,
     props: {
-      requestData: defaultData,
-      buttonCallbackUrl: buttonCallbackUrl,
+      requestData,
+      buttonCallbackUrl,
       qrOptions: {bgColor: '#EBF0F1', fgColor: '#3C3C3D'}
     }
   }))
   .add('Size', () => ({
     component: ShareKitAngularLibComponent,
     props: {
-      requestData: defaultData,
-      buttonCallbackUrl: buttonCallbackUrl,
+      requestData,
+      buttonCallbackUrl,
       qrOptions: {size: 300}
     }
   }))
   .add('Without Logo', () => ({
     component: ShareKitAngularLibComponent,
     props: {
-      requestData: defaultData,
-      buttonCallbackUrl: buttonCallbackUrl,
+      requestData,
+      buttonCallbackUrl,
       qrOptions: {hideLogo: true}
     }
   }))
   .add('Button', () => ({
     component: ShareKitAngularLibComponent,
     props: {
-      requestData: defaultData,
-      buttonCallbackUrl: buttonCallbackUrl,
+      requestData,
+      buttonCallbackUrl,
       shouldRenderButton: () => true
     }
   }))

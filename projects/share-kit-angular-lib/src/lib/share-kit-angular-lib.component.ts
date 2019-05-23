@@ -14,7 +14,7 @@ import {
   RequestData,
   RequestElementResult,
   ShouldRenderButton
-} from "@bloomprotocol/share-kit";
+} from '@bloomprotocol/share-kit';
 
 @Component({
   selector: 'RequestElement',
@@ -24,7 +24,7 @@ import {
   styles: []
 })
 export class ShareKitAngularLibComponent implements OnInit, OnChanges, OnDestroy {
-  @ViewChild("containerRef", {read: ElementRef}) private containerRef: ElementRef;
+  @ViewChild('containerRef', {read: ElementRef}) private containerRef: ElementRef;
 
   @Input() requestData: RequestData;
   @Input() qrOptions?: Partial<QROptions>;
@@ -35,7 +35,7 @@ export class ShareKitAngularLibComponent implements OnInit, OnChanges, OnDestroy
   constructor() { }
 
   ngOnInit(): void {
-    if(!this.containerRef.nativeElement) return;
+    if (!this.containerRef.nativeElement) { return; }
 
     const {requestData, qrOptions, buttonCallbackUrl, shouldRenderButton} = this;
     this.requestElementResult = renderRequestElement({
@@ -48,7 +48,7 @@ export class ShareKitAngularLibComponent implements OnInit, OnChanges, OnDestroy
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if(!this.requestElementResult) return;
+    if (!this.requestElementResult) { return; }
 
     const requestData: RequestData = changes.requestData.currentValue;
     const qrOptions: Partial<QROptions> = changes.qrOptions.currentValue;
