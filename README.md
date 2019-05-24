@@ -60,7 +60,7 @@ import {Action, QROptions, RequestData} from '@bloomprotocol/share-kit';
       [requestData]="requestData"
       [buttonCallbackUrl]="buttonCallbackUrl"
       [qrOptions]="qrOptions"
-      [shouldRenderButton]="callbackFunc()"
+      [shouldRenderButton]="someFunc()"
     ></RequestElement>
   `,
   styleUrls: ['./app.component.css']
@@ -85,7 +85,7 @@ export class AppComponent {
   };
 
   // Overriding shouldRenderButton
-  callbackFunc() {
+  someFunc() {
     return (parsedResult) => parsedResult.platform.type !== 'mobile';
   }
 }
