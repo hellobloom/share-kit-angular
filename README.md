@@ -1,27 +1,96 @@
-# ShareKitAngular
+![Share Kit Angular](https://github.com/hellobloom/share-kit/raw/master/images/logo.png)
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 7.3.9.
+# Share Kit Angular
 
-## Development server
+Angular wrapper for [Share Kit](https://github.com/hellobloom/share-kit#readme)
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+- [Share Kit Angular](#share-kit-angular)
+  - [Installation](#installation)
+  - [Usage](#usage)
+  - [More](#more)
 
-## Code scaffolding
+## Installation
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+```
+npm install --save @bloomprotocol/share-kit-angular
+```
 
-## Build
+## Usage
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
+`RequestElement` will render a QR code or button based on the client's platform. By default it will render a button when the client is mobile or tablet and on iOS.
 
-## Running unit tests
+Import the `ShareKitAngularLibModule` in `@NgModule`
+```tsx
+import {ShareKitAngularLibModule} from '@bloomprotocol/share-kit-angular';
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+@NgModule({
+  ...
+  imports: [
+    ...
+    ShareKitAngularLibModule
+  ]
+  ...
+})
+export class AppModule { }
+```
 
-## Running end-to-end tests
+Use the `ShareKitAngularLibComponent` with selector as `RequestElement`
+```tsx
+import { Component } from '@angular/core';
+import {Action, QROptions, RequestData} from '@bloomprotocol/share-kit';
 
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
+@Component({
+  selector: 'app-root',
+  template: `
+    <h4>Request Element with 'requestData' and 'buttonCallbackUrl'</h4>
+    <RequestElement
+      [requestData]="requestData"
+      [buttonCallbackUrl]="buttonCallbackUrl"
+    ></RequestElement>
 
-## Further help
+    <h4>Request Element with 'requestData', 'buttonCallbackUrl' and 'qrOptions'</h4>
+    <RequestElement
+      [requestData]="requestData"
+      [buttonCallbackUrl]="buttonCallbackUrl"
+      [qrOptions]="qrOptions"
+    ></RequestElement>
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+    <h4>Request Element with 'requestData', 'buttonCallbackUrl', 'qrOptions' and 'shouldRenderButton'</h4>
+    <RequestElement
+      [requestData]="requestData"
+      [buttonCallbackUrl]="buttonCallbackUrl"
+      [qrOptions]="qrOptions"
+      [shouldRenderButton]="callbackFunc()"
+    ></RequestElement>
+  `,
+  styleUrls: ['./app.component.css']
+})
+export class AppComponent {
+  title = 'test-app';
+  requestData: RequestData = {
+    action: Action.attestation,
+    token: 'a08714b92346a1bba4262ed575d23de3ff3e6b5480ad0e1c82c011bab0411fdf',
+    url: 'https://receive-kit.bloom.co/api/receive',
+    org_logo_url: 'https://bloom.co/images/notif/bloom-logo.png',
+    org_name: 'Bloom',
+    org_usage_policy_url: 'https://bloom.co/legal/terms',
+    org_privacy_policy_url: 'https://bloom.co/legal/privacy',
+    types: ['phone', 'email'],
+  };
+  buttonCallbackUrl = 'https://mysite.com/bloom-callback';
+
+  // Setting QR Options
+  qrOptions: Partial<QROptions> = {
+    size: 200,
+  };
+
+  // Overriding shouldRenderButton
+  callbackFunc() {
+    return (parsedResult) => parsedResult.platform.type !== 'mobile';
+  }
+}
+```
+
+## More
+
+For more information and documentation see [Share Kit](https://github.com/hellobloom/share-kit#readme)
