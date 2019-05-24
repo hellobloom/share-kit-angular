@@ -94,7 +94,7 @@ export class AppComponent {
 
 ## Common Errors
 
-##### If you are getting errors line `crypto` module not found, do the following
+#### If you are getting errors like "Can't resolve `crypto` in ..." or "Can't resolve `stream` in ...", do the following
 
 create a file `patch-webpack.js` with the following content
 ```js
