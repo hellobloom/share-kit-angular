@@ -9,7 +9,7 @@ Angular wrapper for [Share Kit](https://github.com/hellobloom/share-kit#readme)
   - [Usage](#usage)
   - [Common Errors](#common-errors)
   - [More](#more)
-  - [Build & Publish](projects/request-element/README.md)
+  - [Test, Build & Publish](projects/request-element/README.md)
 
 ## Installation
 
