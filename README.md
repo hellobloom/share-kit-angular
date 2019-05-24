@@ -114,6 +114,7 @@ fs.readFile(f, 'utf8', function (err,data) {
 ```
 
 Add a script to run the above after every install
+
 In `package.json`
 ```
 ...
