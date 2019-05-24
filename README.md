@@ -7,6 +7,7 @@ Angular wrapper for [Share Kit](https://github.com/hellobloom/share-kit#readme)
 - [Share Kit Angular](#share-kit-angular)
   - [Installation](#installation)
   - [Usage](#usage)
+  - [Common Errors](#common-errors)
   - [More](#more)
 
 ## Installation
@@ -91,6 +92,40 @@ export class AppComponent {
 }
 ```
 
-## More
+## Common Errors
 
+##### If you are getting errors line `crypto` module not found, do the following
+
+create a file `patch-webpack.js` with the following content
+```js
+const fs = require('fs');
+const f = 'node_modules/@angular-devkit/build-angular/src/angular-cli-files/models/webpack-configs/browser.js';
+
+fs.readFile(f, 'utf8', function (err,data) {
+  if (err) {
+    return console.log(err);
+  }
+  let result = data.replace(/node: false/g, "node: {crypto: true, stream: true, fs: 'empty', net: 'empty'}");
+
+  fs.writeFile(f, result, 'utf8', function (err) {
+    if (err) return console.log(err);
+  });
+});
+```
+
+Add a script to run the above after every install
+In `package.json`
+```
+...
+"scripts": {
+  ...
+  "postinstall": "node patch-webpack.js"
+}
+```
+Run 
+```bash
+node patch-webpack.js
+```
+
+## More
 For more information and documentation see [Share Kit](https://github.com/hellobloom/share-kit#readme)
