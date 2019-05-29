@@ -3,5 +3,6 @@
   "dest": "../../dist/request-element",
   "lib": {
     "entryFile": "src/public-api.ts"
-  }
+  },
+  "whitelistedNonPeerDependencies": ["@bloomprotocol/share-kit"]
 }
