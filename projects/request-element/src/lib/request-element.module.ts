@@ -1,5 +1,5 @@
-import { NgModule } from '@angular/core';
-import { RequestElementComponent } from './request-element.component';
+import { NgModule } from '@angular/core'
+import { RequestElementComponent } from './request-element.component'
 
 @NgModule({
   declarations: [RequestElementComponent],
