@@ -1,9 +1,9 @@
-import {moduleMetadata, storiesOf} from '@storybook/angular';
-import {CommonModule} from '@angular/common';
-import { boolean, object, number, color, text, array, withKnobs } from '@storybook/addon-knobs';
+import {moduleMetadata, storiesOf} from '@storybook/angular'
+import {CommonModule} from '@angular/common'
+import {boolean, object, number, color, text, array, withKnobs} from '@storybook/addon-knobs'
 
-import {Action} from '@bloomprotocol/share-kit';
-import {RequestElementModule} from '../../projects/request-element/src/lib/request-element.module';
+import {Action, ButtonOptions} from '@bloomprotocol/share-kit'
+import {RequestElementModule} from '../../projects/request-element/src/lib/request-element.module'
 
 const requestData = {
   action: Action.attestation,
@@ -14,85 +14,90 @@ const requestData = {
   org_usage_policy_url: 'https://bloom.co/legal/terms',
   org_privacy_policy_url: 'https://bloom.co/legal/privacy',
   types: ['phone', 'email'],
-};
+}
 
-const buttonCallbackUrl = 'https://mysite.com/bloom-callback';
+const buttonOptions: ButtonOptions = {
+  callbackUrl: 'https://mysite.com/bloom-callback',
+}
 
 const qrOptions = {
   size: 128,
   bgColor: '#fff',
   fgColor: '#6067f1',
   hideLogo: false,
-  padding: 0
-};
+  padding: 0,
+}
 
-const stories = storiesOf('Request Element', module);
+const stories = storiesOf('Request Element', module)
 
-stories.addDecorator(withKnobs);
-stories.addDecorator(moduleMetadata({
-  declarations: [],
-  imports: [CommonModule, RequestElementModule]
-}));
+stories.addDecorator(withKnobs)
+stories.addDecorator(
+  moduleMetadata({
+    declarations: [],
+    imports: [CommonModule, RequestElementModule],
+  }),
+)
 
 stories
   .add('Button', () => ({
     template: `
       <RequestElement
         [requestData]="requestData"
-        [buttonCallbackUrl]="buttonCallbackUrl"
+        [buttonOptions]="buttonOptions"
         [shouldRenderButton]="shouldRenderButton"
       >
       </RequestElement>
     `,
     props: {
-      requestData,
-      buttonCallbackUrl,
-      shouldRenderButton: () => true
-    }
+      requestData: {
+        ...{
+          action: text('action', requestData.action),
+          token: text('token', requestData.token),
+          url: text('url', requestData.url),
+          org_logo_url: text('org_logo_url', requestData.org_logo_url),
+          org_name: text('org_name', requestData.org_name),
+          org_usage_policy_url: text('org_usage_policy_url', requestData.org_usage_policy_url),
+          org_privacy_policy_url: text('org_privacy_policy_url', requestData.org_privacy_policy_url),
+          types: array('types', requestData.types),
+        },
+      },
+      buttonOptions: {
+        ...buttonOptions,
+      },
+      shouldRenderButton: () => true,
+    },
   }))
   .add('QR Code', () => ({
     template: `
       <RequestElement
         [requestData]="requestData"
-        [buttonCallbackUrl]="buttonCallbackUrl"
+        [buttonOptions]="buttonOptions"
         [qrOptions]="qrOptions"
       >
       </RequestElement>
     `,
     props: {
-      requestData: object('Request Data', {
-        action: text('Action', requestData.action),
-        token: text('Token', requestData.token),
-        url: text('URL', requestData.url),
-        org_logo_url: text('Org Logo URL', requestData.org_logo_url),
-        org_name: text('Org Name', requestData.org_name),
-        org_usage_policy_url: text('Org Usage Policy URL', requestData.org_usage_policy_url),
-        org_privacy_policy_url: text('Org Privacy Policy URL', requestData.org_privacy_policy_url),
-        types: array('Types', requestData.types)
-      }),
-      buttonCallbackUrl: text('Button Callback URL', buttonCallbackUrl),
-      qrOptions: object('QR Options', {
-        size: number('Size', qrOptions.size),
-        bgColor: color('BG Color', qrOptions.bgColor),
-        fgColor: color('FG Color', qrOptions.fgColor),
-        hideLogo: boolean('Hide Logo', qrOptions.hideLogo),
-        padding: number('Padding', qrOptions.padding)
-      })
-    }
-  }))
-  .add('Updating', () => ({
-    template: `
-      <RequestElement [requestData]="getData()" [buttonCallbackUrl]="buttonCallbackUrl"></RequestElement>
-      <p>Counter: {{counter}}</p>
-      <button (click)="handleUpdate()">Update RequestQRCode</button>
-    `,
-    props: {
-      buttonCallbackUrl,
-      counter: 1,
-      getData() {
-        return requestData;
+      requestData: {
+        ...{
+          action: text('action', requestData.action),
+          token: text('token', requestData.token),
+          url: text('url', requestData.url),
+          org_logo_url: text('org_logo_url', requestData.org_logo_url),
+          org_name: text('org_name', requestData.org_name),
+          org_usage_policy_url: text('org_usage_policy_url', requestData.org_usage_policy_url),
+          org_privacy_policy_url: text('org_privacy_policy_url', requestData.org_privacy_policy_url),
+          types: array('types', requestData.types),
+        },
       },
-      handleUpdate() { this.counter = this.counter + 1; }
-    }
+      buttonOptions: {...buttonOptions},
+      qrOptions: {
+        ...{
+          size: number('size', qrOptions.size),
+          bgColor: color('bgColor', qrOptions.bgColor),
+          fgColor: color('fgColor', qrOptions.fgColor),
+          hideLogo: boolean('hideLogo', qrOptions.hideLogo),
+          padding: number('padding', qrOptions.padding),
+        },
+      },
+    },
   }))
-;

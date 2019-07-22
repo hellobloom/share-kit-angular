@@ -1,9 +1,9 @@
-import { async } from '@angular/core/testing';
-import { Shallow } from 'shallow-render';
-import { RequestElementComponent } from './request-element.component';
-import { RequestElementModule } from './request-element.module';
-import * as shareKit from '@bloomprotocol/share-kit';
-import { Action, QROptions, RequestData } from '@bloomprotocol/share-kit';
+import {async} from '@angular/core/testing'
+import {Shallow} from 'shallow-render'
+import {RequestElementComponent} from './request-element.component'
+import {RequestElementModule} from './request-element.module'
+import * as shareKit from '@bloomprotocol/share-kit'
+import {Action, QROptions, ButtonOptions, RequestData, renderRequestElement} from '@bloomprotocol/share-kit'
 
 const requestData: RequestData = {
   action: Action.attestation,
@@ -13,35 +13,38 @@ const requestData: RequestData = {
   org_name: 'Bloom',
   org_usage_policy_url: 'https://bloom.co/legal/terms',
   org_privacy_policy_url: 'https://bloom.co/legal/privacy',
-  types: ['phone', 'email']
-};
-const qrOptions: Partial<QROptions> = {size: 300};
-const buttonCallbackUrl = 'https://mysite.com/bloom-callback';
+  types: ['phone', 'email'],
+}
+const qrOptions: Partial<QROptions> = {size: 300}
+const buttonOptions: ButtonOptions = {
+  callbackUrl: 'https://mysite.com/bloom-callback',
+}
 
 describe('RequestElementComponent', () => {
-  let shallow: Shallow<RequestElementComponent>;
+  let shallow: Shallow<RequestElementComponent>
 
   beforeEach(async(() => {
-    shallow = new Shallow(RequestElementComponent, RequestElementModule);
-  }));
+    shallow = new Shallow(RequestElementComponent, RequestElementModule)
+  }))
 
   it('calls renderRequestElement with correct params', async () => {
-    const shareKitSpy = spyOn(shareKit, 'renderRequestElement');
+    const shareKitSpy = jasmine.createSpy('renderRequestElement').and.returnValue(renderRequestElement)
+    spyOnProperty(shareKit, 'renderRequestElement', 'get').and.returnValue(shareKitSpy)
     await shallow.render({
       bind: {
         requestData,
-        buttonCallbackUrl,
+        buttonOptions,
         qrOptions,
-        shouldRenderButton: () => true
-      }
-    });
+        shouldRenderButton: () => true,
+      },
+    })
     await expect(shareKitSpy).toHaveBeenCalledWith(
       jasmine.objectContaining({
         container: jasmine.any(HTMLElement),
         requestData: jasmine.objectContaining(requestData),
         qrOptions: jasmine.objectContaining(qrOptions),
-        shouldRenderButton: jasmine.any(Function)
-      })
-    );
-  });
-});
+        shouldRenderButton: jasmine.any(Function),
+      }),
+    )
+  })
+})
