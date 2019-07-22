@@ -3,7 +3,7 @@ import {Shallow} from 'shallow-render'
 import {RequestElementComponent} from './request-element.component'
 import {RequestElementModule} from './request-element.module'
 import * as shareKit from '@bloomprotocol/share-kit'
-import {Action, QROptions, ButtonOptions, RequestData} from '@bloomprotocol/share-kit'
+import {Action, QROptions, ButtonOptions, RequestData, renderRequestElement} from '@bloomprotocol/share-kit'
 
 const requestData: RequestData = {
   action: Action.attestation,
@@ -28,7 +28,8 @@ describe('RequestElementComponent', () => {
   }))
 
   it('calls renderRequestElement with correct params', async () => {
-    const shareKitSpy = spyOn(shareKit, 'renderRequestElement')
+    const shareKitSpy = jasmine.createSpy('renderRequestElement').and.returnValue(renderRequestElement)
+    spyOnProperty(shareKit, 'renderRequestElement', 'get').and.returnValue(shareKitSpy)
     await shallow.render({
       bind: {
         requestData,
